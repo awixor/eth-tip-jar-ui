@@ -9,9 +9,10 @@ import ConnectWalletSkeleton from "../skeletons/connect-wallet-skeleton";
 
 export const ConnectWallet = () => {
   const [shouldShowNoWallet, setShouldShowNoWallet] = useState(false);
-  const { mutate: connect, isPending: isConnecting } = useConnect();
+  const { mutate: connect, isPending: isConnectingWallet } = useConnect();
   const { mutate: disconnect } = useDisconnect();
-  const { address, connector, isConnected } = useConnection();
+  const { address, connector, isConnected, isConnecting, isReconnecting } =
+    useConnection();
   const connectors = useConnectors();
 
   useEffect(() => {
@@ -34,6 +35,8 @@ export const ConnectWallet = () => {
       />
     );
 
+  if (isConnecting || isReconnecting) return <ConnectWalletSkeleton />;
+
   if (connectors.length > 0) {
     return (
       <div className="flex gap-3">
@@ -42,7 +45,7 @@ export const ConnectWallet = () => {
             key={connector.id}
             connector={connector}
             onConnect={() => connect({ connector })}
-            isConnecting={isConnecting}
+            isConnecting={isConnectingWallet}
           />
         ))}
       </div>
