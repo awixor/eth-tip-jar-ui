@@ -1,5 +1,7 @@
-import { truncateHash } from "@/lib/utils";
 import ConnectorIcon from "./connector-icon";
+import { truncateHash } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { NetworkSwitcher } from "@/components/network-switcher";
 
 type WalletConnectedProps = {
   address: `0x${string}`;
@@ -34,12 +36,16 @@ export function WalletConnected({
             </code>
           </div>
         </div>
-        <button
+
+        <NetworkSwitcher />
+
+        <Button
           onClick={onDisconnect}
-          className="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+          variant="outline"
+          className="cursor-pointer"
         >
           Disconnect
-        </button>
+        </Button>
       </div>
     </div>
   );
