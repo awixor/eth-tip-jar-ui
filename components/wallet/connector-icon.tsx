@@ -1,4 +1,4 @@
-import { WalletIcon } from "@/lib/icons";
+import { Wallet } from "lucide-react";
 import Image from "next/image";
 
 interface ConnectorIconProps {
@@ -24,5 +24,5 @@ export default function ConnectorIcon({
     );
   }
 
-  return <WalletIcon className={className} />;
+  return <Wallet className={className} />;
 }
