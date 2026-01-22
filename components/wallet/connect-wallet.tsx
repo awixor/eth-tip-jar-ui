@@ -5,6 +5,7 @@ import { WalletOption } from "./wallet-option";
 import { NoWalletDetected } from "./no-wallet-detected";
 import { WalletConnected } from "./wallet-connected";
 import { useEffect, useState } from "react";
+import ConnectWalletSkeleton from "../skeletons/connect-wallet-skeleton";
 
 export const ConnectWallet = () => {
   const [shouldShowNoWallet, setShouldShowNoWallet] = useState(false);
@@ -50,5 +51,5 @@ export const ConnectWallet = () => {
 
   if (shouldShowNoWallet) return <NoWalletDetected />;
 
-  return null;
+  return <ConnectWalletSkeleton />;
 };
