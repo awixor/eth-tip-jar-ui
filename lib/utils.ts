@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function truncateHash(
-  hash: string,
+  hash: string | `0x${string}`,
   startLength = 6,
   endLength = 4,
 ): string {
