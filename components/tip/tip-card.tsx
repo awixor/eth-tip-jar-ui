@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import { Coins } from "lucide-react";
 import { parseEther } from "viem/utils";
-import { useConnection, useWaitForTransactionReceipt } from "wagmi";
+import {
+  useBalance,
+  useChainId,
+  useConnection,
+  useWaitForTransactionReceipt,
+} from "wagmi";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,7 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useGetCurrency } from "@/hooks/useGetCurrency";
-import { useWriteTipJarTip } from "@/lib/generated";
+import { tipJarAddress, useWriteTipJarTip } from "@/lib/generated";
 import { Spinner } from "@/components/ui/spinner";
 import { Balence } from "../balence";
 import { TransactionSuccessModal } from "../tx-success-modal";
@@ -27,6 +32,11 @@ const presets = ["0.001", "0.01", "0.05"];
 export function TipJarCard() {
   const { isConnected } = useConnection();
   const currency = useGetCurrency();
+  const chainId = useChainId();
+
+  const { refetch: refetchBalance } = useBalance({
+    address: tipJarAddress[chainId as keyof typeof tipJarAddress],
+  });
   const [amount, setAmount] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [hash, setHash] = useState<`0x${string}` | undefined>(undefined);
@@ -68,14 +78,14 @@ export function TipJarCard() {
   useEffect(() => {
     if (isConfirmed && receipt) {
       localStorage.removeItem(STORAGE_KEYS.PENDING_TX);
-
+      refetchBalance();
       const timer = setTimeout(() => {
         setShowSuccess(true);
       }, 0);
 
       return () => clearTimeout(timer);
     }
-  }, [isConfirmed, receipt]);
+  }, [isConfirmed, refetchBalance, receipt]);
 
   const handleSendTip = async () => {
     if (!amount || parseFloat(amount) <= 0) return;
@@ -112,7 +122,7 @@ export function TipJarCard() {
 
   return (
     <>
-      <Card className="w-full max-w-md border-zinc-200 shadow-xl dark:border-zinc-800">
+      <Card className="w-full max-w-xl border-zinc-200 shadow-xl dark:border-zinc-800">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2 text-xl font-bold">

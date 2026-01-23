@@ -1,14 +1,16 @@
 import { Wallet } from "lucide-react";
 import { formatEther } from "viem";
-import { useBalance } from "wagmi";
+import { useBalance, useChainId } from "wagmi";
 import { useGetCurrency } from "@/hooks/useGetCurrency";
 import { tipJarAddress } from "@/lib/generated";
 import { Spinner } from "@/components/ui/spinner";
 
 export function Balence() {
   const currency = useGetCurrency();
+  const chainId = useChainId();
+
   const { data, isLoading, isError } = useBalance({
-    address: tipJarAddress[11155111],
+    address: tipJarAddress[chainId as keyof typeof tipJarAddress],
   });
 
   const renderBalence = () => {
