@@ -20,7 +20,6 @@ import { truncateHash } from "@/lib/utils";
 interface SuccessModalProps {
   isOpen: boolean;
   onClose: () => void;
-  tippedAmount?: string;
   receipt?: TransactionReceipt;
 }
 
@@ -28,7 +27,6 @@ export function TransactionSuccessModal({
   isOpen,
   onClose,
   receipt,
-  tippedAmount,
 }: SuccessModalProps) {
   const { chain } = useConnection();
 
@@ -65,7 +63,6 @@ export function TransactionSuccessModal({
       label: "Transaction hash",
       value: truncateHash(receipt?.transactionHash || "", 20, 10),
     },
-    { label: "Tipped Amount", value: `${tippedAmount || "N/A"} ETH` },
   ];
 
   return (

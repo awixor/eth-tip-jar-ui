@@ -20,6 +20,7 @@ import { useWriteTipJarTip } from "@/lib/generated";
 import { Spinner } from "@/components/ui/spinner";
 import { Balence } from "../balence";
 import { TransactionSuccessModal } from "../tx-success-modal";
+import { STORAGE_KEYS } from "@/lib/constants";
 
 const presets = ["0.001", "0.01", "0.05"];
 
@@ -30,7 +31,6 @@ export function TipJarCard() {
   const [message, setMessage] = useState<string>("");
   const [hash, setHash] = useState<`0x${string}` | undefined>(undefined);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [tippedAmount, setTippedAmount] = useState("");
   const {
     mutateAsync,
     isPending: isWriting,
@@ -48,7 +48,27 @@ export function TipJarCard() {
   });
 
   useEffect(() => {
+    const savedHash = localStorage.getItem(STORAGE_KEYS.PENDING_TX);
+
+    if (savedHash && savedHash.startsWith("0x")) {
+      const timeoutId = setTimeout(() => {
+        setHash(savedHash as `0x${string}`);
+      }, 0);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (receiptError) {
+      localStorage.removeItem(STORAGE_KEYS.PENDING_TX);
+    }
+  }, [receiptError]);
+
+  useEffect(() => {
     if (isConfirmed && receipt) {
+      localStorage.removeItem(STORAGE_KEYS.PENDING_TX);
+
       const timer = setTimeout(() => {
         setShowSuccess(true);
       }, 0);
@@ -59,17 +79,18 @@ export function TipJarCard() {
 
   const handleSendTip = async () => {
     if (!amount || parseFloat(amount) <= 0) return;
-    setTippedAmount(amount);
 
     try {
       const txHash = await mutateAsync({
         value: parseEther(amount),
         args: [message],
       });
+
       setHash(txHash);
       setAmount("");
       setMessage("");
       resetWrite();
+      localStorage.setItem(STORAGE_KEYS.PENDING_TX, txHash);
     } catch (error) {
       console.error("Error sending tip:", error);
     }
@@ -182,7 +203,6 @@ export function TipJarCard() {
       <TransactionSuccessModal
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
-        tippedAmount={tippedAmount}
         receipt={receipt}
       />
     </>
