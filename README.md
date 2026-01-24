@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ethereum Tip Jar UI
+
+A modern, Web3-enabled tip jar application built with Next.js and Wagmi. This interface allows users to send tips on Ethereum network to a smaret contract, and only owner can withdraw.
+
+## Features
+
+- 🔗 **Multi-Network Support** - Switch between different blockchain networks
+- 👛 **Wallet Integration** - Connect your Web3 wallet seamlessly
+- 💰 **Tip Management** - View and manage your cryptocurrency tips
+- 🎨 **Modern UI** - Built with shadcn/ui components for a polished experience
+- ⚡ **Type-Safe** - Full TypeScript support for robust development
+- 🌙 **Theme Support** - Light and dark mode themes
+
+## Tech Stack
+
+- **Framework**: [Next.js](https://nextjs.org) (App Router)
+- **Styling**: Tailwind CSS with PostCSS
+- **Web3**: [Wagmi](https://wagmi.sh) for Ethereum interactions
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com)
+- **Package Manager**: pnpm
+- **Language**: TypeScript
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 16+ 
+- pnpm installed (`npm install -g pnpm`)
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Install dependencies
+pnpm install
+
+# Run development server
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+components/        # React components
+  - admin/        # Admin panel components
+  - tip/          # Tip-related components
+  - wallet/       # Wallet connection components
+  - ui/           # Reusable UI components
+app/              # Next.js app router pages
+config/           # Configuration files
+hooks/            # Custom React hooks
+lib/              # Utility functions and constants
+providers/        # Context providers and theme setup
+public/           # Static assets
+```
 
-## Learn More
+## Development
 
-To learn more about Next.js, take a look at the following resources:
+### Available Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm start` - Start production server
+- `pnpm lint` - Run ESLint
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Key Configuration Files
 
-## Deploy on Vercel
+- `wagmi.config.ts` - Wagmi configuration for Web3
+- `next.config.ts` - Next.js configuration
+- `tsconfig.json` - TypeScript configuration
+- `components.json` - shadcn/ui components configuration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contributions are welcome! Feel free to open issues or submit pull requests to improve the project.
+
+## License
+
+This project is open source and available under the MIT License.
